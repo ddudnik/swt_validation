@@ -29,7 +29,7 @@ ValidationToolkit.setupValidation(textField, ValidationToolkit.EMAIL, new Valida
 });
 ```
 
-A bit harder but gives you possibility to implement any UI feedback which you find the most suitable for your application and users. But hey, I know there are lots of lazy software engineers like me who wants everything out of the box. Don't worry, some default feedbacks will come as this toolkit will develop. Take a look at development plan and don't hesitate to contribute to this project!
+A bit harder but gives you possibility to implement any UI feedback which you find the most suitable for your application and users. But hey, I know there are lots of lazy software engineers like me who wants everything out of the box. Don't worry, some default feedbacks will come as this toolkit will develop. Take a look at development plan below and don't hesitate to contribute to this project!
 
 For the beginning there are several validators ready to use:
 * `ValidationToolkit.NON_EMPTY` - checks if field value is not empty
@@ -59,4 +59,22 @@ Now all three fields are validated as a whole and you'll receive a compound `Val
 
 You could also notice in previous snippet that **multiple validators could be combined** to be called on a single field. Just specify them as an array which by the way will also define order in which they will be called. **Important note**: email and phone number validators DOES NOT demand field value to be non-empty. If you want your value to be a valid email AND to be non-empty you should combine validators as it is shown in snippet.
 
-There's also possibility to **combine fields** which should have similar validation, i.e. be non-empty. So you don't need to setup non-empty validator for every field.
+There's also possibility to **combine fields** which should have similar validation, i.e. be non-empty. So you don't need to setup non-empty validator for every field:
+
+```java
+ValidationToolkit.setupValidation(new Control[] {field1, field2, field3}, ValidationToolkit.NON_EMPTY, /* your callback*/);
+```
+
+Developer notes
+=========================================================
+
+Some basic notes on toolkit design and contributing.
+
+\[TBA\]
+
+Plan for final 1.0 release:
+------------------------
+* add default callbacks which could somehow decorate invalid field (modifying background, adding small icon etc.) and/or show small tip with error message
+* add more validators: improve numeric validator to handle ranges, date, internet address etc.
+* extend toolkit to be able to work not only with text controls but with arbitrary (even user-defined) UI elements - could be tricky one
+* .....
