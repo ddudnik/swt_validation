@@ -62,10 +62,14 @@ You could also notice in previous snippet that **multiple validators could be co
 There's also possibility to **combine fields** which should have similar validation, i.e. be non-empty. So you don't need to setup non-empty validator for every field:
 
 ```java
-ValidationToolkit.setupValidation(new Control[] {field1, field2, field3}, ValidationToolkit.NON_EMPTY, /* your callback*/);
+ValidationToolkit.setupValidation(
+  new Control[] {field1, field2, field3}, 
+  ValidationToolkit.NON_EMPTY, 
+  /* your callback*/);
 ```
 
-Developer notes
+
+Toolkit Development Notes
 =========================================================
 
 Some basic notes on toolkit design and contributing.
@@ -77,4 +81,6 @@ Plan for final 1.0 release:
 * add default callbacks which could somehow decorate invalid field (modifying background, adding small icon etc.) and/or show small tip with error message
 * add more validators: improve numeric validator to handle ranges, date, internet address etc.
 * extend toolkit to be able to work not only with text controls but with arbitrary (even user-defined) UI elements - could be tricky one
+* add some unit testing and (maybe) UI testing with SWTBot or smth similar
+* further improvement of documentation
 * .....
