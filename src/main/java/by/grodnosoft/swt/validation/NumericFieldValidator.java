@@ -1,5 +1,7 @@
 package by.grodnosoft.swt.validation;
 
+import java.lang.reflect.Method;
+
 import by.grodnosoft.swt.validation.ValidationToolkit.IFieldValidator;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.ValidationStatus;
@@ -30,10 +32,8 @@ public class NumericFieldValidator implements IFieldValidator {
 					ValidationStatus.ERROR, 
 					String.format("Value should be a %s number!", getNumberTypeName()), this);
 		}
-		Number num = null;
 		try {
-			// TODO
-//			num = NumberUtils.createNumber(valueToValidate);
+			Number num = createNumberFromString(valueToValidate);
 			if (!numberType.isInstance(num)) {
 				throw new NumberFormatException();
 			}
@@ -45,10 +45,22 @@ public class NumericFieldValidator implements IFieldValidator {
 		return new ValidationResult(ValidationStatus.OK);
 	}
 	
-	
 	private String getNumberTypeName() {
 		String className = numberType.getName();
 		return className.substring(className.lastIndexOf("."));
 	}
 
+	private Number createNumberFromString(String valueToValidate) {
+		try {
+			Class<?> numberUtilsClass = Class.forName("org.apache.commons.lang.math.NumberUtils");
+			Method createNumberMethod = numberUtilsClass.getDeclaredMethod("createNumber", String.class);
+			return (Number) createNumberMethod.invoke(null, valueToValidate);
+		} catch (NumberFormatException e) {
+			throw e;
+		} catch (Exception e) {
+			// no commons-lang, proceed with our simple method for getting Number from a String
+		}
+		// TODO: add number guessing heuristics
+		return null;
+	}
 }

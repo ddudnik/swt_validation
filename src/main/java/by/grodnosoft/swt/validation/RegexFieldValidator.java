@@ -1,21 +1,23 @@
 package by.grodnosoft.swt.validation;
 
+import java.util.regex.Pattern;
+
 import by.grodnosoft.swt.validation.ValidationToolkit.IFieldValidator;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.ValidationStatus;
 
 public class RegexFieldValidator implements IFieldValidator{
 	
-	private String regex;
+	private Pattern pattern;
 	
 	public RegexFieldValidator(String regex) {
-		this.regex = regex;
+		this.pattern = Pattern.compile(regex);
 	}
 
 	@Override
 	public ValidationResult validate(String valueToValidate) {
 		if (valueToValidate != null && !valueToValidate.isEmpty()
-				&& !valueToValidate.matches(regex)) {
+				&& !pattern.matcher(valueToValidate).matches()) {
 			return new ValidationResult(
 					ValidationStatus.ERROR, getErrorMessage(valueToValidate), this);
 		}
@@ -23,7 +25,7 @@ public class RegexFieldValidator implements IFieldValidator{
 	}
 	
 	protected String getErrorMessage(String valueToValidate) {
-		return String.format("Value \"%s\" does not match regular expression \"%s\"", valueToValidate, regex);
+		return String.format("Value \"%s\" does not match regular expression \"%s\"", valueToValidate, pattern.pattern());
 	}
 	
 }

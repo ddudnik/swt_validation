@@ -1,7 +1,5 @@
 package by.grodnosoft.swt.validation;
 
-
-
 /**
  * Validates if field value is a valid email address.
  * 
@@ -11,7 +9,7 @@ package by.grodnosoft.swt.validation;
 public class EmailFiledValidator extends RegexFieldValidator {
 
 	public EmailFiledValidator() {
-		super("");	// TODO
+		super("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	}
 
 	@Override
