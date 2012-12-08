@@ -24,9 +24,20 @@ ValidationToolkit.setupValidation(textField, ValidationToolkit.EMAIL, new Valida
   public void validationDone(ValidationResult result) {
     if (ValidationStatus.ERROR.equals(result.getStatus())) {
   	  // ... do something, i.e. mark this text field as invalid
-		}
-	}
+    }
+  }
 });
 ```
 
 A bit harder but gives you possibility to implement any UI feedback which you find the most suitable for your application and users. But hey, I know there are lots of lazy software engineers like me who wants everything out of the box. Don't worry, some default feedbacks will come as this toolkit will develop. Take a look at development plan and don't hesitate to contribute to this project!
+
+For the beginning there are several validators ready to use:
+* `ValidationToolkit.NON_EMPTY` - checks if field value is not empty
+* `ValidationToolkit.NUMERIC` - checks if field content is a number
+* `ValidationToolkit.EMAIL` - checks if field content is valid email address (does not check actual _existance_ of this address)
+* `ValidationToolkit.PHONE_NUMBER` - checks if field content is a valid phone number (see `PhoneNumberFieldValidator.java` for details on acceptable phone number patters)
+* `RegexFieldValidator` which does not have a named constant and checks if field content matches against given pattern
+
+Not many, but new validators will definitely come with new toolkit versions. Now you could add whatever is missing by implementing `IFieldValidator` interface.
+
+
