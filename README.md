@@ -56,3 +56,7 @@ ValidationToolkit.setupValidation(ctx);
 ```
 
 Now all three fields are validated as a whole and you'll receive a compound `ValidationResult` in your callback containing details on every field's validity.
+
+You could also notice in previous snippet that **multiple validators could be combined** to be called on a single field. Just specify them as an array which by the way will also define order in which they will be called. **Important note**: email and phone number validators DOES NOT demand field value to be non-empty. If you want your value to be a valid email AND to be non-empty you should combine validators as it is shown in snippet.
+
+There's also possibility to **combine fields** which should have similar validation, i.e. be non-empty. So you don't need to setup non-empty validator for every field.
