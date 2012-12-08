@@ -63,9 +63,7 @@ There's also possibility to **combine fields** which should have similar validat
 
 ```java
 ValidationToolkit.setupValidation(
-  new Control[] {field1, field2, field3}, 
-  ValidationToolkit.NON_EMPTY, 
-  /* your callback*/);
+  new Control[] {field1, field2, field3}, ValidationToolkit.NON_EMPTY, /* your callback*/);
 ```
 
 
