@@ -6,9 +6,9 @@ package by.grodnosoft.swt.validation;
  * @author Denis Dudnik <deniska.dudnik@gmail.com>
  *
  */
-public class EmailFiledValidator extends RegexFieldValidator {
+public class EmailValidator extends RegexValidator {
 
-	public EmailFiledValidator() {
+	public EmailValidator() {
 		super("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	}
 

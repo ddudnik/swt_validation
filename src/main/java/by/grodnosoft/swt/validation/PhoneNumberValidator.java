@@ -18,13 +18,13 @@ package by.grodnosoft.swt.validation;
  * @author Denis Dudnik <deniska.dudnik@gmail.com>
  *
  */
-public class PhoneNumberFieldValidator extends RegexFieldValidator {
+public class PhoneNumberValidator extends RegexValidator {
 	
 	/**
 	 * This regular expression was found here: http://blog.stevenlevithan.com/archives/validate-phone-number
 	 * There are more regular expressions discussed in this article, this one is the most general one.
 	 */
-	public PhoneNumberFieldValidator() {
+	public PhoneNumberValidator() {
 		super("^(?:\\+?[0-9]{1,3}[-. ]?)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
 	}
 

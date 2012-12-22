@@ -24,15 +24,15 @@ import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.Validatio
  */
 public class ValidationToolkit {
 	
-	public static final IFieldValidator NON_EMPTY = new NonEmptyFieldValidator();
-	public static final IFieldValidator NUMERIC = new NumericFieldValidator();
-	public static final IFieldValidator EMAIL = new EmailFiledValidator();
-	public static final IFieldValidator PHONE_NUMBER = new PhoneNumberFieldValidator();
+	public static final IValidator NON_EMPTY = new NonEmptyValidator();
+	public static final IValidator NUMERIC = new NumericValidator();
+	public static final IValidator EMAIL = new EmailValidator();
+	public static final IValidator PHONE_NUMBER = new PhoneNumberValidator();
 
 	/**
 	 * Common interface for all validators
 	 */
-	public interface IFieldValidator {
+	public interface IValidator {
 		ValidationResult validate(String valueToValidate);
 	}
 
@@ -64,31 +64,31 @@ public class ValidationToolkit {
 		
 		private ValidationStatus status;
 		private String message;
-		private IFieldValidator validator;
+		private IValidator validator;
 		private Control field;
 		private Collection<ValidationResult> childValidationResults;
 		
 		public ValidationResult(ValidationStatus status) {
 			this(status, null, null);
 		}
-		
-		public ValidationResult(ValidationStatus status, String message, IFieldValidator validator) {
+
+		public ValidationResult(ValidationStatus status, IValidator validator) {
+			this(status, null, validator);
+		}
+
+		public ValidationResult(ValidationStatus status, String message, IValidator validator) {
 			this.status = status;
 			this.message = message;
 			this.validator = validator;
 			this.childValidationResults = new ArrayList<ValidationResult>();
 		}
 		
-		public IFieldValidator getValidator() {
+		public IValidator getValidator() {
 			return validator;
 		}
 		
 		public ValidationStatus getStatus() {
 			return status;
-		}
-		
-		private void setField(Control field) {
-			this.field = field;
 		}
 		
 		public Control getField() {
@@ -99,19 +99,23 @@ public class ValidationToolkit {
 			return message;
 		}
 		
-		public void addChildResult(ValidationResult result) {
-			if (getStatus().lessThan(result.getStatus())) {
-				this.status = result.getStatus();
-			}
-			this.childValidationResults.add(result);
-		}
-		
 		public Collection<ValidationResult> getChildren() {
 			return childValidationResults;
 		}
 		
 		public boolean isCompound() {
 			return !childValidationResults.isEmpty();
+		}
+		
+		private void addChildResult(ValidationResult result) {
+			if (getStatus().lessThan(result.getStatus())) {
+				this.status = result.getStatus();
+			}
+			this.childValidationResults.add(result);
+		}
+		
+		private void setField(Control field) {
+			this.field = field;
 		}
 	}
 
@@ -123,32 +127,32 @@ public class ValidationToolkit {
 	public static class ValidationContext {
 		
 		private ValidationCallback callback;
-		private Map<Control, IFieldValidator[]> fieldConfig;
+		private Map<Control, IValidator[]> fieldConfig;
 
 		public ValidationContext(ValidationCallback callback) {
 			if (callback == null) {
 				throw new IllegalArgumentException("Callback can't be null!");
 			}
 			this.callback = callback;
-			this.fieldConfig = new HashMap<Control, IFieldValidator[]>();
+			this.fieldConfig = new HashMap<Control, IValidator[]>();
 		}
 
-		public void setupField(Control field, IFieldValidator validator) {
-			setupField(field, new IFieldValidator[] {validator});
+		public void setupField(Control field, IValidator validator) {
+			setupField(field, new IValidator[] {validator});
 		}
 		
-		public void setupField(Control field, IFieldValidator[] validators) {
+		public void setupField(Control field, IValidator[] validators) {
 			if (field == null) {
 				throw new IllegalArgumentException("Field can't be null!");
 			}
 			fieldConfig.put(field, validators);
 		}
 
-		public void setupFields(Control[] fields, IFieldValidator validator) {
-			setupFields(fields, new IFieldValidator[] {validator});
+		public void setupFields(Control[] fields, IValidator validator) {
+			setupFields(fields, new IValidator[] {validator});
 		}
 
-		public void setupFields(Control[] fields, IFieldValidator[] validators) {
+		public void setupFields(Control[] fields, IValidator[] validators) {
 			for (Control field : fields) {
 				fieldConfig.put(field, validators);
 			}
@@ -174,8 +178,8 @@ public class ValidationToolkit {
 				public void handleEvent(Event event) {
 					ValidationResult result = new ValidationResult(ValidationStatus.OK);
 					for (Control field : validationContext.fieldConfig.keySet()) {
-						IFieldValidator[] validators = validationContext.fieldConfig.get(field);
-						for (IFieldValidator validator : validators) {
+						IValidator[] validators = validationContext.fieldConfig.get(field);
+						for (IValidator validator : validators) {
 							ValidationResult childResult = validator.validate(getTextFromField(field));
 							childResult.setField(field);
 							result.addChildResult(childResult);
@@ -196,8 +200,8 @@ public class ValidationToolkit {
 	 * @throws IllegalArgumentException if either field or validator are <code>null</code>
 	 */
 	public static void setupValidation(
-			Control field, final IFieldValidator validator, final ValidationCallback callback) {
-		setupValidation(field, new IFieldValidator[]{validator}, callback);
+			Control field, final IValidator validator, final ValidationCallback callback) {
+		setupValidation(field, new IValidator[]{validator}, callback);
 	}
 	
 	/**
@@ -209,7 +213,7 @@ public class ValidationToolkit {
 	 * @throws IllegalArgumentException if either field is <code>null</code> or validators is <code>null</code> or empty
 	 */
 	public static void setupValidation(
-			final Control field, final IFieldValidator[] validators, final ValidationCallback callback) {
+			final Control field, final IValidator[] validators, final ValidationCallback callback) {
 		if (field == null) {
 			throw new IllegalArgumentException("Text field can't be null!");
 		}
@@ -226,7 +230,7 @@ public class ValidationToolkit {
 					result.setField(field);
 				} else {
 					result = new ValidationResult(ValidationStatus.OK);
-					for (IFieldValidator validator : validators) {
+					for (IValidator validator : validators) {
 						ValidationResult childResult = validator.validate(text);
 						childResult.setField(field);
 						result.addChildResult(childResult);

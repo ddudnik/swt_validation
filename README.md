@@ -5,6 +5,8 @@ This is a simple and flexible toolkit for adding validation to your SWT UI contr
 
 I tried to keep it high-level so you could basically add a validation capabilities to your UI controls with a single line of code. However I also tried to make it flexible in terms of dealing with validation feedback so sometimes you'll find adding a bit more code quite helpful. But enough words, let's get started!
 
+Current version is **0.1**, so it's in very beginning as you could assume.
+
 Getting started
 ----------------------
 
