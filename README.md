@@ -35,7 +35,7 @@ A bit harder but gives you possibility to implement any UI feedback which you fi
 
 For the beginning there are several validators ready to use:
 * `ValidationToolkit.NON_EMPTY` - checks if field value is not empty
-* `ValidationToolkit.NUMERIC` - checks if field content is a number
+* `ValidationToolkit.NUMERIC` - checks if field content is a number (not yet completed however)
 * `ValidationToolkit.EMAIL` - checks if field content is valid email address (does not check actual _existance_ of this address)
 * `ValidationToolkit.PHONE_NUMBER` - checks if field content is a valid phone number (see `PhoneNumberValidator.java` for details on acceptable phone number patters)
 * `RegexValidator` which does not have a named constant and checks if field content matches against given pattern
@@ -65,9 +65,7 @@ There's also possibility to **combine fields** which should have similar validat
 
 ```java
 ValidationToolkit.setupValidation(
-  new Control[] {field1, field2, field3}, 
-  ValidationToolkit.NON_EMPTY, 
-  /* your callback*/);
+  new Control[] {field1, field2, field3}, ValidationToolkit.NON_EMPTY, /* your callback*/);
 ```
 
 
