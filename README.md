@@ -37,10 +37,10 @@ For the beginning there are several validators ready to use:
 * `ValidationToolkit.NON_EMPTY` - checks if field value is not empty
 * `ValidationToolkit.NUMERIC` - checks if field content is a number
 * `ValidationToolkit.EMAIL` - checks if field content is valid email address (does not check actual _existance_ of this address)
-* `ValidationToolkit.PHONE_NUMBER` - checks if field content is a valid phone number (see `PhoneNumberFieldValidator.java` for details on acceptable phone number patters)
-* `RegexFieldValidator` which does not have a named constant and checks if field content matches against given pattern
+* `ValidationToolkit.PHONE_NUMBER` - checks if field content is a valid phone number (see `PhoneNumberValidator.java` for details on acceptable phone number patters)
+* `RegexValidator` which does not have a named constant and checks if field content matches against given pattern
 
-Not many, but new validators will definitely come with new toolkit versions. Now you could add whatever is missing by implementing `IFieldValidator` interface (and maybe contributing some to the toolkit).
+Not many, but new validators will definitely come with new toolkit versions. Now you could add whatever is missing by implementing `IValidator` interface (and maybe contributing some to the toolkit).
 
 Want more?
 -------------------------

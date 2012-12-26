@@ -11,9 +11,10 @@ import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.Validatio
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	NonEmptyValidatorTest.class, EmailValidatorTest.class,
-	NumericValidatorTest.class
-	})
+        NonEmptyValidatorTest.class, EmailValidatorTest.class,
+        NumericValidatorTest.class, PhoneNumberValidatorTest.class,
+        RegexValidatorTest.class
+})
 public class ValidatorsTestSuite {
 
 	protected static void assertValidationResultOK(

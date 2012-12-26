@@ -60,6 +60,8 @@ public class NumericValidatorTest {
 	@Test
 	public void validateCorrectDoubles() throws Exception {
 		char separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+        ValidatorsTestSuite.assertValidationResultOK(
+                validator, validator.validate("126"));
 		ValidatorsTestSuite.assertValidationResultOK(
 				validator, validator.validate(
 						String.format("123%c456", separator)));
@@ -113,5 +115,54 @@ public class NumericValidatorTest {
 		ValidatorsTestSuite.assertValidationResultOK(
 				validator, validator.validate(String.valueOf(Byte.MIN_VALUE)));
 	}
+
+    @Test
+    public void validateIncorrectIntegers() throws Exception {
+        validator.setNumberType(Integer.class);
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("123asd"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("aaa"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("123%123"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("!1111"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("0-000"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("1.000"));
+    }
+
+    @Test
+    public void validateIncorrectDoubles() throws Exception {
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("123-456"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("456a"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("#111.1"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("1000000000000000L"));
+    }
+
+    @Test
+    public void validateIncorrectLongs() throws Exception {
+        validator.setNumberType(Long.class);
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("123456789L"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("-a"));
+    }
+
+    @Test
+    public void validateIncorrectBytes() throws Exception {
+        validator.setNumberType(Byte.class);
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("a"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("--157"));
+        ValidatorsTestSuite.assertValidationResultERROR(
+                validator, validator.validate("$1"));
+    }
 
 }

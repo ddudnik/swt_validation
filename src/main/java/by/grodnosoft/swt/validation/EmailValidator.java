@@ -1,7 +1,7 @@
 package by.grodnosoft.swt.validation;
 
 /**
- * Validates if field value is a valid email address.
+ * Validates if field value is a valid email address. Validation is based on regular expression matching.
  * 
  * @author Denis Dudnik <deniska.dudnik@gmail.com>
  *

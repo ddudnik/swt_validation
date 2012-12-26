@@ -6,6 +6,11 @@ import by.grodnosoft.swt.validation.ValidationToolkit.IValidator;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult;
 import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.ValidationStatus;
 
+/**
+ * Validates input value against specified regular expression.
+ *
+ * @author Denis Dudnik <deniska.dudnik@gmail.com>
+ */
 public class RegexValidator implements IValidator{
 	
 	private Pattern pattern;
