@@ -77,7 +77,8 @@ Toolkit Development Notes
 =========================================================
 
 Want to contribute? That's fantastic! There are couple of very simple steps before you get going:
-1. Discuss what you would like to work on. Just to make sure that we can avoid duplicating effort. Also you may get some feedback, which can help you being more effective. To get in touch just send me a message to deniska.dudnik@gmail.com.
+
+1. Discuss what you would like to work on. Just to make sure that we can avoid duplicating effort. Also you may get some feedback, which can help you being more effective. To get in touch just send me a message to <deniska.dudnik@gmail.com>.
 2. Fork the repo and start coding. Once you finish the work send a pull request. As simple as that.
 3. Read through the list of some development notes and make sure your code is not breaking them before you commit.
 
