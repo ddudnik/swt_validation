@@ -1,19 +1,16 @@
 package by.grodnosoft.swt.validation;
 
+import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.ValidationStatus;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
-
-import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.ValidationStatus;
 
 /**
  * Provides utility methods for adding different validators to UI fields
@@ -23,13 +20,15 @@ import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.Validatio
  *
  */
 public class ValidationToolkit {
-	
+
+    private static final String GET_TEXT_METHOD_NAME = "getText";
+
 	public static final IValidator NON_EMPTY = new NonEmptyValidator();
 	public static final IValidator NUMERIC = new NumericValidator();
 	public static final IValidator EMAIL = new EmailValidator();
 	public static final IValidator PHONE_NUMBER = new PhoneNumberValidator();
 
-	/**
+    /**
 	 * Common interface for all validators
 	 */
 	public interface IValidator {
@@ -63,8 +62,8 @@ public class ValidationToolkit {
 		}
 		
 		private ValidationStatus status;
-		private String message;
-		private IValidator validator;
+		private final String message;
+		private final IValidator validator;
 		private Control field;
 		private Collection<ValidationResult> childValidationResults;
 		
@@ -261,15 +260,22 @@ public class ValidationToolkit {
 		}
 	}
 
-	
 	private static String getTextFromField(Control field) {
-		if (field instanceof Text) {
-			return ((Text) field).getText();
-		} else if (field instanceof Combo) {
-			return ((Combo) field).getText();
-		} else if (field instanceof CCombo) {
-			return ((CCombo) field).getText();
-		}
-		return null;
-	}
+        try {
+
+            return String.valueOf(
+                    field.getClass().getDeclaredMethod(GET_TEXT_METHOD_NAME).invoke(field));
+
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(
+                    String.format("Control of type %s does not have '%s()' method!",
+                            field.getClass().getName(), GET_TEXT_METHOD_NAME), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(
+                    String.format("'%s()' method threw an exception: %s", GET_TEXT_METHOD_NAME, e.getMessage()), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(
+                    String.format("'%s()' method enforced Java access control or is inaccessible.", GET_TEXT_METHOD_NAME), e);
+        }
+    }
 }

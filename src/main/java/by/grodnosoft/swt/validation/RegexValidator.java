@@ -13,7 +13,7 @@ import by.grodnosoft.swt.validation.ValidationToolkit.ValidationResult.Validatio
  */
 public class RegexValidator implements IValidator{
 	
-	private Pattern pattern;
+	private final Pattern pattern;
 	
 	public RegexValidator(String regex) {
 		this.pattern = Pattern.compile(regex);
